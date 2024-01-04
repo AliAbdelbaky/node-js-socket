@@ -76,17 +76,16 @@
         messageWrapper.appendChild(item);
     }
 
-    const handleSendingMSG = () => {
+
+
+    clickSend.addEventListener('click', () => {
         const message = messageInput.value.trim() || 'wrong input';
         const username = usernameInput.value.trim() || 'please enter your username';
 
         socket.emit('chat message', {message, username});
         messageInput.value = '';
 
-    }
-
-
-    clickSend.addEventListener('click', handleSendingMSG);
+    });
 
 </script>
 </body>
