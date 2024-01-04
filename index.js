@@ -1,18 +1,34 @@
-var express=require('express');
-var socket=require('socket.io');
-var app=express();
-var server=app.listen(7005,function(){
-    console.log("http://localhost:7005")});
+const express = require('express');
+const app = express();
+const http = require('http').Server(app);
+const io = require('socket.io')(http);
+
 app.use(express.static('public'));
-var scket=socket(server);
-scket.on('connection', function(data){
-    console.log('welcome =>',data.id);
-   
-    data.on('message',function(info){
-        scket.sockets.emit('new',info);
+
+io.on('connection', (socket) => {
+    console.log('A user connected');
+
+    // Handle incoming chat messages
+    socket.on('chat message', (msg) => {
+        console.log('Message: ' + msg);
+        // Broadcast the message to all connected clients
+        io.emit('chat message', msg);
+        socket.broadcast.emit('chat message', msg);
+    });
+    socket.on('broadcast', function (info) {
+        socket.broadcast.emit('new-broad', info);
     })
-    data.on('broadcast',function(info){
-        data.broadcast.emit('new-broad',info);
-    })
-    
-  });
+
+    // Handle disconnection
+    socket.on('disconnect', () => {
+        console.log('A user disconnected');
+    });
+});
+
+
+
+const port = process.env.PORT || 3000;
+
+http.listen(port, () => {
+    console.log(`Server listening on port ${port}`);
+});

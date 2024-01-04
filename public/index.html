@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!--    <link rel="stylesheet" type="text/css" href="/assets/style.css">-->
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body>
+
+<div class="flex min-h-screen items-center justify-center px-4 flex-col gap-4">
+    <div id="broadcast"></div>
+    <label>
+        <input
+                id="username"
+                type="text"
+                class="p-4 rounded-md shadow-md ring-2 ring-black-100 min-w-full outline-none"
+                placeholder="Type your username.."
+        />
+    </label>
+
+
+    <div class="rounded-md shadow-md h-[300px] w-full bg-black-100 p-4" id="messages"></div>
+
+
+    <div class="min-w-full px-4 py-2 ">
+        <div class="rounded-md shadow-2xl  flex gap-2  overflow-hidden" style="border: 2px solid #ccc;">
+            <input id="input-message" type="text" class="p-2  flex-1 outline-none" placeholder="Type here..">
+            <button class="bg-green-500 py-3 px-6 text-white rounded-md text-" id="send">Send</button>
+        </div>
+
+    </div>
+
+</div>
+<div class="flex bg-red">
+
+</div>
+<!--<div id="container">-->
+<!--    <h2>Chat Messages</h2>-->
+<!--    <div id="broadcast">-->
+<!--    </div>-->
+<!--    <div id="chat">-->
+
+<!--    </div>-->
+<!--    <hr/>-->
+<!--    UserName:<input type="text" id="username"><br>-->
+<!--    <textarea id="mess"></textarea>-->
+<!--    <button id="send">CHAT WITH US &#9993;</button>-->
+<!--</div>-->
+
+<script src="/socket.io/socket.io.js"></script>
+<!--<script src="/js/client.js"></script>-->
+<script>
+    const socket = io();
+    const clickSend = document.getElementById('send');
+    const messageWrapper = document.getElementById('messages');
+    const messageInput = document.getElementById('input-message');
+    const usernameInput = document.getElementById('username');
+
+
+    // Handle incoming chat messages
+    socket.on('chat message', (msg) => {
+        generateMSG(msg);
+    });
+    socket.on('new-broad', function (info) {
+        const broadcast = document.getElementById('broadcast');
+        console.log(info)
+        broadcast.innerHTML = '<strong>' + info.username + ': </strong> write message &#9993; &#9993; &#9993;';
+
+    });
+    const generateMSG = ({message, username}) => {
+
+        const item = document.createElement('li');
+        item.textContent = username + ' ' + message;
+        messageWrapper.appendChild(item);
+    }
+
+    const handleSendingMSG = () => {
+        const message = messageInput.value.trim() || 'wrong input';
+        const username = usernameInput.value.trim() || 'please enter your username';
+
+        socket.emit('chat message', {message, username});
+        messageInput.value = '';
+
+    }
+
+
+    clickSend.addEventListener('click', handleSendingMSG);
+
+</script>
+</body>
+</html>
