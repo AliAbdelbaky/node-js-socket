@@ -20,7 +20,7 @@
     </label>
 
 
-    <div class="rounded-md shadow-md h-[300px] w-full bg-black-100 p-4" id="messages"></div>
+    <div class="rounded-md shadow-md w-full min-h-[70vh] bg-black-100 p-4 flex flex-col gap-3 overflow-x-hidden" id="messages"></div>
 
 
     <div class="min-w-full px-4 py-2 ">
@@ -70,8 +70,9 @@
     });
     const generateMSG = ({message, username}) => {
 
-        const item = document.createElement('li');
-        item.textContent = username + ' ' + message;
+        const item = document.createElement('div');
+        item.setAttribute('class', 'min-w-full px-4 py-2 rounded-md shadow-2xl  flex gap-2  overflow-hidden');
+        item.textContent = username + ': ' + message;
         messageWrapper.appendChild(item);
     }
 
