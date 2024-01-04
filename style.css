@@ -1,0 +1,48 @@
+body {
+    margin: 0 auto;
+    max-width: 800px;
+    padding: 0 20px;
+    background-color:lavenderblush;
+    
+}
+h2{
+    text-align: center;
+    text-decoration:double;
+    color:black;
+  
+}
+.container {
+    background-color: lightsteelblue;
+    border-radius: 5px ;
+    border: 3px solid lightpink;
+    padding: 10px;
+    margin: 10px 0;
+    text-shadow: 20px;
+}
+.container::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+input{
+border-radius: 5px;
+padding: 4px;
+margin-bottom: 2px;
+}
+.time-right {
+    float: right;
+    color:goldenrod;
+}
+.time-left {
+    float: left;
+    color:goldenrod;
+}
+button{
+ background-color: forestgreen;
+ border-radius: 5px ;
+ border:2px solid darkslategrey;   
+}
+textarea{
+        width: 670px;
+        height: 43px
+}
